@@ -33,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void _addWelcomeMessage() {
     setState(() {
       _messages.add(Message(
-        text: "愿主的平安与你同在，我是约翰牧师，很高兴能遇见你。请告诉我，我能为你做什么？",
+        text: "原主的平安与你同在，我是约翰牧师，很高兴能遇见你。请告诉我，我能为你做什么？",
         isUser: false,
       ));
     });
@@ -90,77 +90,148 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundPrimary,
-      appBar: AppBar(
-        title: const Text('以马内利'),
-        elevation: 0,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              color: AppColors.backgroundPrimary,
-              child: ListView.builder(
-                controller: _scrollController,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                itemCount: _messages.length,
-                itemBuilder: (context, i) => MessageBubble(message: _messages[i]),
-              ),
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.backgroundPrimary,
+              AppColors.backgroundSecondary,
+            ],
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.backgroundElevated,
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, -1),
-                  blurRadius: 8,
-                  color: AppColors.shadow,
-                ),
-              ],
-            ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  if (_isLoading)
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: const CupertinoActivityIndicator(
-                        radius: 10,
-                      ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '以马内利',
+                      style: Theme.of(context).appBarTheme.titleTextStyle,
                     ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _controller,
-                            decoration: const InputDecoration(
-                              hintText: '分享你的想法...',
-                            ),
-                            maxLines: null,
-                            textInputAction: TextInputAction.send,
-                            onSubmitted: (_) => _sendMessage(),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        ElevatedButton(
-                          onPressed: _sendMessage,
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.all(16),
-                          ),
-                          child: const Icon(Icons.send),
-                        ),
-                      ],
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(30),
                     ),
                   ),
-                ],
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(30),
+                    ),
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                      itemCount: _messages.length,
+                      itemBuilder: (context, i) => MessageBubble(message: _messages[i]),
+                    ),
+                  ),
+                ),
               ),
-            ),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.backgroundElevated,
+                  boxShadow: [
+                    BoxShadow(
+                      offset: const Offset(0, -1),
+                      blurRadius: 8,
+                      color: AppColors.shadow,
+                    ),
+                  ],
+                ),
+                child: SafeArea(
+                  child: Column(
+                    children: [
+                      if (_isLoading)
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: const CupertinoActivityIndicator(),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.backgroundSecondary,
+                                  borderRadius: BorderRadius.circular(25),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.shadow,
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: TextField(
+                                  controller: _controller,
+                                  decoration: const InputDecoration(
+                                    hintText: '分享你的想法...',
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                      vertical: 16,
+                                    ),
+                                  ),
+                                  maxLines: null,
+                                  textInputAction: TextInputAction.send,
+                                  onSubmitted: (_) => _sendMessage(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    AppColors.gradientStart,
+                                    AppColors.gradientEnd,
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(25),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.shadow,
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(25),
+                                  onTap: _sendMessage,
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(16),
+                                    child: Icon(
+                                      Icons.send_rounded,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

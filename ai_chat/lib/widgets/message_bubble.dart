@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/message.dart';
 import '../theme/app_colors.dart';
 
@@ -24,40 +26,62 @@ class MessageBubble extends StatelessWidget {
           children: [
             if (message.sender != null)
               Padding(
-                padding: const EdgeInsets.only(bottom: 4),
+                padding: const EdgeInsets.only(bottom: 4, left: 12, right: 12),
                 child: Text(
                   message.sender!.name,
-                  style: TextStyle(
+                  style: GoogleFonts.notoSerif(
                     fontSize: 12,
                     color: AppColors.navy.withOpacity(0.7),
                     fontStyle: FontStyle.italic,
+                    letterSpacing: 0.5,
                   ),
                 ),
               ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              decoration: BoxDecoration(
-                color: message.isUser ? AppColors.userMessageBg : AppColors.botMessageBg,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(20),
-                  topRight: const Radius.circular(20),
-                  bottomLeft: Radius.circular(message.isUser ? 20 : 5),
-                  bottomRight: Radius.circular(message.isUser ? 5 : 20),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(20),
+                topRight: const Radius.circular(20),
+                bottomLeft: Radius.circular(message.isUser ? 20 : 5),
+                bottomRight: Radius.circular(message.isUser ? 5 : 20),
               ),
-              child: Text(
-                message.text,
-                style: TextStyle(
-                  color: message.isUser ? Colors.white : AppColors.textPrimary,
-                  fontSize: 16,
-                  height: 1.4,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: message.isUser 
+                      ? AppColors.userMessageBg.withOpacity(0.95)
+                      : AppColors.botMessageBg.withOpacity(0.95),
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(20),
+                      topRight: const Radius.circular(20),
+                      bottomLeft: Radius.circular(message.isUser ? 20 : 5),
+                      bottomRight: Radius.circular(message.isUser ? 5 : 20),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.shadow,
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                        spreadRadius: 0,
+                      ),
+                    ],
+                    border: Border.all(
+                      color: message.isUser 
+                        ? Colors.white.withOpacity(0.1)
+                        : Colors.black.withOpacity(0.05),
+                      width: 0.5,
+                    ),
+                  ),
+                  child: Text(
+                    message.text,
+                    style: GoogleFonts.notoSerif(
+                      color: message.isUser ? Colors.white : AppColors.textPrimary,
+                      fontSize: 16,
+                      height: 1.5,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
                 ),
               ),
             ),
