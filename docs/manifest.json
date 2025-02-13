@@ -1,11 +1,11 @@
 {
-    "name": "ai_chat",
-    "short_name": "ai_chat",
+    "name": "以马内利",
+    "short_name": "以马内利",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#F5F1E8",
+    "theme_color": "#2C3E50",
+    "description": "以马内利 - 基督教AI牧师",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
