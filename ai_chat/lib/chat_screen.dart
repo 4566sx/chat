@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'dart:ui';
 import 'ai_service.dart';
 import 'models/message.dart';
 import 'models/user.dart';
 import 'theme/app_colors.dart';
 import 'widgets/message_bubble.dart';
+import 'package:flutter/rendering.dart';
 
 class ChatScreen extends StatefulWidget {
   final User currentUser;
@@ -110,53 +112,82 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           Container(
             decoration: BoxDecoration(
-              color: AppColors.backgroundElevated,
+              color: Colors.white.withOpacity(0.8),
               boxShadow: [
                 BoxShadow(
                   offset: const Offset(0, -1),
-                  blurRadius: 8,
+                  blurRadius: 12,
                   color: AppColors.shadow,
                 ),
               ],
             ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  if (_isLoading)
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: const CupertinoActivityIndicator(
-                        radius: 10,
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _controller,
-                            decoration: const InputDecoration(
-                              hintText: '分享你的想法...',
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: SafeArea(
+                  child: Column(
+                    children: [
+                      if (_isLoading)
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: const CupertinoActivityIndicator(
+                            radius: 10,
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.shadow,
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: TextField(
+                                  controller: _controller,
+                                  decoration: const InputDecoration(
+                                    hintText: '分享你的想法...',
+                                  ),
+                                  maxLines: null,
+                                  textInputAction: TextInputAction.send,
+                                  onSubmitted: (_) => _sendMessage(),
+                                ),
+                              ),
                             ),
-                            maxLines: null,
-                            textInputAction: TextInputAction.send,
-                            onSubmitted: (_) => _sendMessage(),
-                          ),
+                            const SizedBox(width: 12),
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.shadow,
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: ElevatedButton(
+                                onPressed: _sendMessage,
+                                style: ElevatedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  padding: const EdgeInsets.all(16),
+                                ),
+                                child: const Icon(Icons.send),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 12),
-                        ElevatedButton(
-                          onPressed: _sendMessage,
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.all(16),
-                          ),
-                          child: const Icon(Icons.send),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),

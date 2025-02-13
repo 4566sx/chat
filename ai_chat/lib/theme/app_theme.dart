@@ -7,35 +7,36 @@ class AppTheme {
       fontFamily: 'serif',
       primaryColor: AppColors.navy,
       scaffoldBackgroundColor: AppColors.backgroundPrimary,
-      appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.navy,
-        foregroundColor: Colors.white,
+      appBarTheme: AppBarTheme(
+        backgroundColor: Colors.white.withOpacity(0.8),
+        foregroundColor: AppColors.navy,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle: TextStyle(
+        titleTextStyle: const TextStyle(
           fontFamily: 'serif',
-          fontSize: 24,
+          fontSize: 28,
           fontWeight: FontWeight.w500,
+          color: AppColors.navy,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.backgroundElevated,
-        hintStyle: const TextStyle(
-          color: AppColors.textSecondary,
+        fillColor: Colors.white.withOpacity(0.8),
+        hintStyle: TextStyle(
+          color: AppColors.textSecondary.withOpacity(0.7),
           fontSize: 16,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: AppColors.glassBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: AppColors.glassBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
-          borderSide: BorderSide(color: AppColors.navy.withOpacity(0.2)),
+          borderSide: BorderSide(color: AppColors.navy.withOpacity(0.3)),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
@@ -44,7 +45,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.navy,
+          backgroundColor: AppColors.navy.withOpacity(0.9),
           foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
